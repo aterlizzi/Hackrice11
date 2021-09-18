@@ -8,7 +8,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
 const DOMParser = () => {
   const body = document.body;
-  const article = "";
+  const articleArr = [];
+  let article;
+  let wordCount;
   console.log(body);
   if (body.querySelector("#root")) {
     if (body.querySelector("#root").tagName.toLowerCase() === "div") {
@@ -20,9 +22,27 @@ const DOMParser = () => {
   } else {
     const paragraphArr = document.querySelectorAll("p");
     paragraphArr.forEach((paragraph) => {
-      console.log(paragraph.textContent);
+      articleArr.push(paragraph.textContent);
     });
+    // remove headlines based on paragraph length.
+    const filteredArr = articleArr.filter((paragraph) => {
+      if (paragraph.split(" ").length < 7) return false;
+      return true;
+    });
+    // calculate total wordcount
+    wordCount = filteredArr.reduce((accumulator, value) => {
+      return value.split(" ").length + accumulator;
+    }, 0);
+    article = filteredArr.join("\n");
+    if (wordCount > 1250) {
+      const reFilter = article.split(" ").filter((_, idx) => {
+        if (idx > 1249) return false;
+        return true;
+      });
+      article = reFilter.join(" ");
+    }
+    console.log(wordCount);
     console.log(article);
-    // return { key: "J4KPsEOjYy", text: "I think therefore I" };
+    return { key: "J4KPsEOjYy", text: article };
   }
 };
