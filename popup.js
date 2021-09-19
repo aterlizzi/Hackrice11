@@ -1,31 +1,24 @@
-const emptyTag = document.querySelector(".empty");
+const emptyTag = document.querySelector(".summary");
 const button = document.querySelector(".btn");
-const container = document.querySelector(".container");
+const spinner = document.querySelector(".hidden");
 button.addEventListener("click", () => {
-  container.appendChild(
-    `<svg class="spinner" viewBox="0 0 50 50">
-      <circle
-        class="path"
-        cx="25"
-        cy="25"
-        r="20"
-        fill="none"
-        stroke-width="5"
-      ></circle>
-    </svg>`
-  );
+  button.classList.toggle("hidden");
+  spinner.classList.toggle("hidden");
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id, { text: "Hello world." });
   });
 });
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
-  const child = document.querySelector(".spinner");
-  container.removeChild(child);
+  console.log(msg);
+  let summary;
   if (msg.key === "k8k4IQwFaX") {
-    const summary = msg.text;
-    emptyTag.textContent = summary;
+    button.classList.toggle("hidden");
+    spinner.classList.toggle("hidden");
+    summary = msg.text;
   } else if (msg.key === "ogLlRDalkA") {
-    const text = msg.text;
-    emptyTag.textContent = text;
+    button.classList.toggle("hidden");
+    spinner.classList.toggle("hidden");
+    summary = msg.text;
   }
+  emptyTag.textContent = summary;
 });

@@ -3,12 +3,14 @@
   "version": "1.0",
   "description": "Summarizes articles.",
   "permissions": ["activeTab", "tabs"],
+  "icons": { "128": "icon_128.png" },
   "background": {
     "service_worker": "background.js"
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Summarize an article!"
+    "default_title": "Summarize an article!",
+    "default_icon": "icon.png"
   },
   "content_scripts": [
     {

@@ -3,7 +3,6 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     let message = DOMParser();
     chrome.runtime.sendMessage(message);
   }
-  return true;
 });
 
 const DOMParser = () => {
